@@ -9,7 +9,7 @@ import time
 import requests
 import json
 #from geopy.geocoders import Nominatim
-from timezonefinder import TimezoneFinder
+#from timezonefinder import TimezoneFinder
 import pytz
 
 # ==============================================================================
