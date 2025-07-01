@@ -8,7 +8,7 @@ from collections import defaultdict, Counter
 import time
 import requests
 import json
-from geopy.geocoders import Nominatim
+#from geopy.geocoders import Nominatim
 from timezonefinder import TimezoneFinder
 import pytz
 
@@ -1063,8 +1063,8 @@ def get_city_info(city_name: str) -> tuple:
     """
     try:
         # Nominatim은 고유한 user_agent를 요구합니다.
-        geolocator = Nominatim(user_agent="saju_api_v1.0")
-        location = geolocator.geocode(city_name, language='en')
+        #geolocator = Nominatim(user_agent="saju_api_v1.0")
+        #location = geolocator.geocode(city_name, language='en')
 
         if location:
             tf = TimezoneFinder()
