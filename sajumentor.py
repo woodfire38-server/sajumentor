@@ -1061,24 +1061,24 @@ def get_city_info(city_name: str) -> tuple:
     도시 이름을 입력받아 시간대 이름과 경도를 반환합니다.
     성공 시: (시간대 이름, 경도) 튜플, 실패 시: (None, None)
     """
-    try:
+    #try:
         # Nominatim은 고유한 user_agent를 요구합니다.
         #geolocator = Nominatim(user_agent="saju_api_v1.0")
         #location = geolocator.geocode(city_name, language='en')
 
-        if location:
-            tf = TimezoneFinder()
+        #if location:
+            #tf = TimezoneFinder()
             # 위도와 경도를 사용해 시간대 이름을 찾음
-            tz_name = tf.timezone_at(lng=location.longitude, lat=location.latitude)
-            return (tz_name, location.longitude)
-        else:
+            #tz_name = tf.timezone_at(lng=location.longitude, lat=location.latitude)
+            #return (tz_name, location.longitude)
+        #else:
             # 도시를 찾지 못한 경우
-            return (None, None)
+            #return (None, None)
             
-    except Exception as e:
+    #except Exception as e:
         # 서버에서는 print 대신 로깅(logging)을 사용하는 것이 더 좋습니다.
-        print(f"도시 정보 조회 중 오류 발생: {e}")
-        return (None, None)
+        #print(f"도시 정보 조회 중 오류 발생: {e}")
+        #return (None, None)
 
 def run_saju_engine(cal_type, date_str, time_str, gender_input, is_leap_input, is_time_unknown, is_overseas, city_name=""):
     """
