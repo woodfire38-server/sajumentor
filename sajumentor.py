@@ -339,27 +339,27 @@ def get_day_pillar(lmt_dt):
     return CHEONGAN[day_cheongan_idx], JIJI[day_jiji_idx], day_cheongan_idx
 
 def get_hour_pillar(lmt_dt, day_cheongan_idx):
-    """LMT를 기준으로 시주를 계산합니다. (야자시 적용)"""
-    h, m = lmt_dt.hour, lmt_dt.minute
+    h = lmt_dt.hour
+    m = lmt_dt.minute
+    time_float = h + m / 60.0
     
-    # 23시 30분 이후는 다음날의 자시로 취급되나, 지지는 '자'로 동일합니다.
-    # 시간 지지 인덱스 계산
-    hour_jiji_idx = 0 # 자시 기본값
-    if 1.5 <= (h + m/60) < 3.5: hour_jiji_idx = 1  # 축시
-    elif 3.5 <= (h + m/60) < 5.5: hour_jiji_idx = 2  # 인시
-    elif 5.5 <= (h + m/60) < 7.5: hour_jiji_idx = 3  # 묘시
-    elif 7.5 <= (h + m/60) < 9.5: hour_jiji_idx = 4  # 진시
-    elif 9.5 <= (h + m/60) < 11.5: hour_jiji_idx = 5 # 사시
-    elif 11.5 <= (h + m/60) < 13.5: hour_jiji_idx = 6 # 오시
-    elif 13.5 <= (h + m/60) < 15.5: hour_jiji_idx = 7 # 미시
-    elif 15.5 <= (h + m/60) < 17.5: hour_jiji_idx = 8 # 신시
-    elif 17.5 <= (h + m/60) < 19.5: hour_jiji_idx = 9 # 유시
-    elif 19.5 <= (h + m/60) < 21.5: hour_jiji_idx = 10# 술시
-    elif 21.5 <= (h + m/60) < 23.5: hour_jiji_idx = 11# 해시
+    # 시간 지지를 결정합니다.
+    hour_jiji_idx = 0  # 23:00 ~ 00:59 (자시) 기본값
+    if 1.0 <= time_float < 3.0: hour_jiji_idx = 1   # 축시
+    elif 3.0 <= time_float < 5.0: hour_jiji_idx = 2   # 인시
+    elif 5.0 <= time_float < 7.0: hour_jiji_idx = 3   # 묘시
+    elif 7.0 <= time_float < 9.0: hour_jiji_idx = 4   # 진시
+    elif 9.0 <= time_float < 11.0: hour_jiji_idx = 5  # 사시
+    elif 11.0 <= time_float < 13.0: hour_jiji_idx = 6  # 오시
+    elif 13.0 <= time_float < 15.0: hour_jiji_idx = 7  # 미시
+    elif 15.0 <= time_float < 17.0: hour_jiji_idx = 8  # 신시
+    elif 17.0 <= time_float < 19.0: hour_jiji_idx = 9  # 유시
+    elif 19.0 <= time_float < 21.0: hour_jiji_idx = 10 # 술시
+    elif 21.0 <= time_float < 23.0: hour_jiji_idx = 11 # 해시
 
-    # 야자시(23:30 이후)인 경우, 시주 천간 계산의 기준이 되는 일간을 다음날의 것으로 봅니다.
+    # 시주 천간을 계산합니다. (선생님의 야자시 로직)
     effective_day_cheongan_idx = day_cheongan_idx
-    if h >= 23 and m >= 30:
+    if h == 23:
         effective_day_cheongan_idx = (day_cheongan_idx + 1) % 10
 
     hour_cheongan_start_map = {0:0, 5:0, 1:2, 6:2, 2:4, 7:4, 3:6, 8:6, 4:8, 9:8}
@@ -597,7 +597,7 @@ def calculate_yearly_luck_final(birth_year_solar, saju_8_chars, keyword_char, so
     if not original_primary_el or original_primary_el not in COMPLEX_INTERACTION_TABLE:
         return [], 0.0, 0.0
 
-    weights_factor = {"대운_천간": 1.0, "대운_지지": 3.0, "연운_천간": 3.0, "연운_지지": 5.0}
+    weights_factor = {"대운_천간": 1.0, "대운_지지": 3.0, "연운_천간": 5.0, "연운_지지": 10.0}
 
     def get_theoretical_extremes():
         """모든 간지 조합을 시뮬레이션하여 이론적인 최대/최소 효과 점수를 계산하는 내부 함수"""
